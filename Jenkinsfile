@@ -19,7 +19,6 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 sh """
-                    eval \$(minikube docker-env)
                     docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
                 """
             }
@@ -28,8 +27,6 @@ pipeline {
         stage('Test') {
             steps {
                 sh """
-                    eval \$(minikube docker-env)
-
                     docker rm -f snapcart-test 2>/dev/null || true
                     docker run -d --name snapcart-test -p 3001:3000 ${IMAGE_NAME}:${IMAGE_TAG}
 
@@ -57,6 +54,18 @@ pipeline {
                     kubectl rollout status deployment/snapcart-deployment -n ${NAMESPACE} --timeout=120s
                 """
             }
+        }
+    }
+
+    post {
+        always {
+            sh 'docker rm -f snapcart-test 2>/dev/null || true'
+        }
+        success {
+            echo 'Pipeline completed successfully.'
+        }
+        failure {
+            echo 'Pipeline failed. Check the logs above.'
         }
     }
 }
