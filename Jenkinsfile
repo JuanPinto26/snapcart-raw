@@ -32,7 +32,7 @@ pipeline {
 
                     sleep 8
 
-                    STATUS=\$(curl -s -o /dev/null -w "%{http_code}" http://localhost:3001/api/health)
+                    STATUS=\$(curl -s -o /dev/null -w "%{http_code}" http://host.docker.internal:3001/api/health
 
                     docker stop snapcart-test && docker rm snapcart-test
 
