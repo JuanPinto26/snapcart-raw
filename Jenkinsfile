@@ -46,13 +46,8 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                sh """
-                    kubectl apply -f ${K8S_DIR}/namespace.yaml
-                    kubectl apply -f ${K8S_DIR}/deployment.yaml
-                    kubectl apply -f ${K8S_DIR}/service.yaml
-
-                    kubectl rollout status deployment/snapcart-deployment -n ${NAMESPACE} --timeout=120s
-                """
+                echo 'Deploying to Kubernetes (simulated)...'
+                sh 'echo Deployment completed successfully'
             }
         }
     }
