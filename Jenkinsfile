@@ -30,9 +30,9 @@ pipeline {
                     docker rm -f snapcart-test 2>/dev/null || true
                     docker run -d --name snapcart-test -p 3001:3000 ${IMAGE_NAME}:${IMAGE_TAG}
 
-                    sleep 8
+                    sleep 10
 
-                    STATUS=\$(curl -s -o /dev/null -w "%{http_code}" http://host.docker.internal:3001/api/health
+                    STATUS=\$(curl -s -o /dev/null -w "%{http_code}" http://host.docker.internal:3001/api/health)
 
                     docker stop snapcart-test && docker rm snapcart-test
 
